@@ -498,7 +498,15 @@ public class SshTerminalView: AppTerminalView, TerminalViewDelegate, SessionDele
             }
         }
     }
-    
+
+    public func clipboardCopy(source: SwiftTerm.TerminalView, content: Data) {
+        print("clibpboardCopy requested")
+    }
+
+    public func rangeChanged(source: SwiftTerm.TerminalView, startY: Int, endY: Int) {
+        // nothing
+    }
+
     public func hostCurrentDirectoryUpdate(source: TerminalView, directory: String?) {
         currentDirectory = directory
     }

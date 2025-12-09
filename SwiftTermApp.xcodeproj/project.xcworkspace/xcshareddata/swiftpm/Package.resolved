@@ -1,4 +1,5 @@
 {
+  "originHash" : "a4c2a32179c9822843712c270ba07bdff6b32e1ee647daff102880a7eb0d9cce",
   "pins" : [
     {
       "identity" : "libssh2prebuild",
@@ -19,12 +20,39 @@
       }
     },
     {
+      "identity" : "swift-argument-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-argument-parser",
+      "state" : {
+        "revision" : "cdd0ef3755280949551dc26dee5de9ddeda89f54",
+        "version" : "1.6.2"
+      }
+    },
+    {
+      "identity" : "swift-subprocess",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-subprocess",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ab2072d457d1464b17166cc02125fc9fc0791e1a"
+      }
+    },
+    {
+      "identity" : "swift-system",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-system",
+      "state" : {
+        "revision" : "395a77f0aa927f0ff73941d7ac35f2b46d47c9db",
+        "version" : "1.6.3"
+      }
+    },
+    {
       "identity" : "swiftterm",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/migueldeicaza/SwiftTerm.git",
       "state" : {
         "branch" : "main",
-        "revision" : "7976db83cbc8729c3b1ade6aa9cf990445164354"
+        "revision" : "f219b1fccc45493e55e62d559628fc8880f7e840"
       }
     },
     {
@@ -37,5 +65,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
