@@ -1,3 +1,9 @@
+# Important
+
+I am not maintaing this sample app, and it has a number of bugs, among them the IO Integration with SSH 
+which cause data to be lost, and thus the rendering is incorrect when it produces a lot of data.
+
+
 # SwiftTermApp
 
 SwiftTermApp is a terminal emulator and SSH client application for iOS
