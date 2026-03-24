@@ -24,16 +24,16 @@ struct QuickLaunch: View {
     func go () {
         guard quickCommand.count > 0 else { return }
         let sp1 = quickCommand.split (separator: ":")
-        let sp2 = String (sp1 [0]).split (separator: "@")
+        let sp2 = String(sp1 [0]).split (separator: "@")
         let user, host: String
         if sp2.count == 1 {
-            host = String (sp2 [0])
+            host = String(sp2 [0])
             user = ""
         } else {
-            user = String (sp2 [0])
-            host = String (sp2 [1])
+            user = String(sp2 [0])
+            host = String(sp2 [1])
         }
-        let port = sp1.count > 1 ? Int (String (sp1 [1])) ?? 22 : 22
+        let port = sp1.count > 1 ? Int (String(sp1 [1])) ?? 22 : 22
         
         destHost = MemoryHost(
             alias: quickCommand,
@@ -54,7 +54,7 @@ struct QuickLaunch: View {
                     .disableAutocorrection(true)
                     
                 Button(action: { self.go () }) {
-                    Text ("Connect")
+                    Text("Connect")
                 }
             }
         }

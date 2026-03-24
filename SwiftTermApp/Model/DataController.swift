@@ -68,7 +68,7 @@ class DataController: ObservableObject {
     
     func createSampleKey () -> CKey {
         let key = CKey (context: container.viewContext)
-        key.id = UUID ()
+        key.id = UUID()
         key.name = "My First Key"
         key.type = .rsa(1024)
         key.publicKey = "FAKE_PUBLIC_KEY"
@@ -78,7 +78,7 @@ class DataController: ObservableObject {
     
     func createSampleSnippet () -> CUserSnippet {
         let snippet = CUserSnippet (context: container.viewContext)
-        snippet.id = UUID ()
+        snippet.id = UUID()
         snippet.title = "List files"
         snippet.command = "ls -l"
         snippet.platforms = ["unix"]
@@ -129,7 +129,7 @@ class DataController: ObservableObject {
     }
 
     func delete(key: CKey) {
-        key.deleteKeychainCompanionData ()
+        key.deleteKeychainCompanionData()
         container.viewContext.delete(key)
     }
     

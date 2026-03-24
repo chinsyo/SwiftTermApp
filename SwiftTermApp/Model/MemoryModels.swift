@@ -97,7 +97,7 @@ class MemoryKey: Key, Codable, Identifiable {
 #endif
     }
     
-    public init (id: UUID = UUID(), type: KeyType = .rsa(4096), name: String = "", privateKey: String = "", publicKey: String = "", passphrase: String = "")
+    public init(id: UUID = UUID(), type: KeyType = .rsa(4096), name: String = "", privateKey: String = "", publicKey: String = "", passphrase: String = "")
     {
         self.id = id
         self.type = type
@@ -118,7 +118,7 @@ class MemoryUserSnippet: UserSnippet, Codable, Identifiable {
     var platforms: [String]
     var id: UUID
     
-    public init (id: UUID = UUID (), title: String, command: String, platforms: [String]) {
+    public init(id: UUID = UUID(), title: String, command: String, platforms: [String]) {
         self.id = id
         self.title = title
         self.command = command

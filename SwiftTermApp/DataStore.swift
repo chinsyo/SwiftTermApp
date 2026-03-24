@@ -22,7 +22,7 @@ class DataStore: ObservableObject {
     static let testKey1 = MemoryKey (id: UUID(), type: .rsa (1024), name: "Fake Legacy Key", privateKey: "", publicKey: "", passphrase: "")
     static let testKey2 = MemoryKey (id: UUID(), type: .rsa (4096), name: "Fake 2020 iPhone Key", privateKey: "", publicKey: "", passphrase: "")
     
-    static let testUuid2 = UUID ()
+    static let testUuid2 = UUID()
     
     var defaults: UserDefaults?
     
@@ -37,7 +37,7 @@ class DataStore: ObservableObject {
     let connectionsArrayKey = "connectionsArray"
     public var knownHostsPath: String
     
-    init ()
+    init()
     {
         func getKnownHostsPath () -> String {
             let fm = FileManager.default
@@ -70,56 +70,25 @@ class DataStore: ObservableObject {
         let decoder = JSONDecoder ()
         
         func decode<T: Decodable> (_ file: String) -> [T] {
-            guard let data = try? Data (contentsOf: URL (fileURLWithPath: file)) else {
+            guard let data = try? Data(contentsOf: URL (fileURLWithPath: file)) else {
                 abort ()
             }
             return try! decoder.decode ([T].self, from: data)
         }
-//        hosts = decode ("/tmp/swiftterm-debug.hosts")
-//        keys = decode ("/tmp/swiftterm-debug.keys")
-//        snippets = decode ("/tmp/swiftterm-debug.snippets")
     }
     
-    func dumpData () {
+    func dumpData() {
         let coder = JSONEncoder ()
 
         func encode<T:Encodable> (_ file: String, _ values: [T]) {
             let data = try! coder.encode(values)
             try! data.write(to: URL (fileURLWithPath: file))
         }
-//        encode ("/tmp/swiftterm-debug.hosts", hosts)
-//        encode ("/tmp/swiftterm-debug.keys", keys)
-//        encode ("/tmp/swiftterm-debug.snippets", snippets)
     }
 #endif
 
     func loadDataStoreFromDefaults () {
         defaults = UserDefaults (suiteName: "SwiftTermApp")
-//        let decoder = JSONDecoder ()
-//        if let d = defaults {
-//            if let data = d.data(forKey: hostsArrayKey) {
-//                if let h = try? decoder.decode ([Host].self, from: data) {
-//                    hosts = h
-//                }
-//            }
-//            for host in hosts {
-//                host.loadKeychainElements()
-//            }
-//            if let data = d.data(forKey: keysArrayKey) {
-//                if let k = try? decoder.decode ([Key].self, from: data) {
-//                    keys = k
-//                }
-//            }
-//            for key in keys {
-//                key.loadKeychainElements ()
-//            }
-//
-//            if let data = d.data(forKey: snippetArrayKey) {
-//                if let s = try? decoder.decode ([Snippet].self, from: data) {
-//                    snippets = s
-//                }
-//            }
-//        }
         loadKnownHosts()
     }
     
@@ -133,21 +102,10 @@ class DataStore: ObservableObject {
         d.synchronize()
         saveKnownHosts ()
     }
-    
-//    func saveSnippets () {
-//        guard let d = defaults else {
-//            return
-//        }
-//        let coder = JSONEncoder ()
-//        if let snippetData = try? coder.encode(snippets) {
-//            d.set (snippetData, forKey: snippetArrayKey)
-//        }
-//        d.synchronize()
-//    }
-        
+
     func loadKnownHosts ()
     {
-        guard let content = try? String (contentsOfFile: knownHostsPath) else {
+        guard let content = try? String(contentsOfFile: knownHostsPath) else {
             return
         }
         
@@ -155,11 +113,11 @@ class DataStore: ObservableObject {
             guard part.count >= 3 else {
                 return nil
             }
-            return KnownHost (host: String (part [0]),
-                           keyType: String (part [1]),
-                           key: String (part[2]),
-                           rest: part [3...].map { String ($0) }.joined(separator: " "),
-                           id: UUID ())
+            return KnownHost (host: String(part [0]),
+                           keyType: String(part [1]),
+                           key: String(part[2]),
+                           rest: part [3...].map { String($0) }.joined(separator: " "),
+                           id: UUID())
         }
         knownHosts.removeAll()
         for line in content.split(separator: "\n") {

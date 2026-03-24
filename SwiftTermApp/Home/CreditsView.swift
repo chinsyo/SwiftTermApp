@@ -16,25 +16,25 @@ struct LicenseFull: View {
 
     var body: some View {
         ScrollView {
-            VStack (alignment: .leading) {
-                Text (name).font (.title)
+            VStack(alignment: .leading) {
+                Text(name).font(.title)
                 if let authors = authors {
-                    Text ("Created by: \(authors)")
-                        .font (.title2)
+                    Text("Created by: \(authors)")
+                        .font(.title2)
                 }
                 if let url = url {
                     HStack {
-                        Text ("Project site: [\(url)](\(url))")
+                        Text("Project site: [\(url)](\(url))")
                         Spacer ()
                     }
                 }
-                Text ("")
-                Text (license)
+                Text("")
+                Text(license)
                     .font(.system(.body, design: .monospaced))
                     .minimumScaleFactor(0.3)
                     .scaledToFit()
-                Spacer ()
-            }.padding ([.leading, .trailing])
+                Spacer()
+            }.padding([.leading, .trailing])
         }
     }
 }
@@ -47,7 +47,7 @@ struct LicenseShort: View {
     
     func getLicense () -> String {
         if let licenseUrl = Bundle.main.url(forResource:license, withExtension: "txt") {
-            if let contents = try? String (contentsOf: licenseUrl) {
+            if let contents = try? String(contentsOf: licenseUrl) {
                 return contents
             } else {
                 return "Unable to load license"
@@ -61,13 +61,13 @@ struct LicenseShort: View {
         NavigationLink (destination: LicenseFull (name: name, url: url, authors: authors, license: getLicense ())) {
             VStack {
                 HStack {
-                    Text ("\(name)")
+                    Text("\(name)")
                         .bold()
                     Spacer ()
                 }
                 if let authors = authors {
                     HStack {
-                        Text ("Authors: \(authors)")
+                        Text("Authors: \(authors)")
                         Spacer ()
                     }
                 }
@@ -80,16 +80,14 @@ struct CreditsView: View {
     var body: some View {
         VStack {
             HStack {
-                Text ("SwiftTermApp is built using the kind work of many open source developers, these are the projects that are used by SwiftTermApp")
+                Text("SwiftTermApp is built using the kind work of many open source developers, these are the projects that are used by SwiftTermApp")
             }.padding()
             List {
-                // Seems like I no longer use it?
-                //LicenseShort (name: "LazyView", authors: "Chris Eidhof", license: "")
-                LicenseShort (name: "libssh", url: "https://www.libssh2.org", authors: "libssh2 project", license: "libssh")
-                LicenseShort (name: "OpenSSL", authors: "Eric Young, OpenSSL project", license: "openssl_1_1_1h")
-                LicenseShort (name: "SwCrypt", authors: "Soyer", license: "swcrypt")
-                LicenseShort (name: "SwiftTerm", authors: "Miguel de Icaza, others", license: "swiftterm")
-                LicenseShort (name: "Source Code Pro", url: "https://github.com/adobe-fonts/source-code-pro", authors: "Paul D. Hunt, Adobe Inc", license: "source-code-pro")
+                LicenseShort(name: "libssh", url: "https://www.libssh2.org", authors: "libssh2 project", license: "libssh")
+                LicenseShort(name: "OpenSSL", authors: "Eric Young, OpenSSL project", license: "openssl_1_1_1h")
+                LicenseShort(name: "SwCrypt", authors: "Soyer", license: "swcrypt")
+                LicenseShort(name: "SwiftTerm", authors: "Miguel de Icaza, others", license: "swiftterm")
+                LicenseShort(name: "Source Code Pro", url: "https://github.com/adobe-fonts/source-code-pro", authors: "Paul D. Hunt, Adobe Inc", license: "source-code-pro")
             }
         }
     }

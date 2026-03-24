@@ -24,7 +24,7 @@ extension CUserSnippet: UserSnippet {
             guard let _s = sPlatforms else {
                 return []
             }
-            return _s.split(separator: ",").map { String ($0) }
+            return _s.split(separator: ",").map { String($0) }
         }
         set {
             sPlatforms = newValue.joined(separator: ",")
@@ -34,7 +34,7 @@ extension CUserSnippet: UserSnippet {
     public var id: UUID {
         get {
             if sId == nil {
-                sId = UUID ()
+                sId = UUID()
             }
             return sId!
         }

@@ -26,7 +26,7 @@ struct SampleApp: App {
             }
         }
     }
-    init () {
+    init() {
         if settings.locationTrack {
             locationTrackerStart()
         }
@@ -56,10 +56,5 @@ struct SampleApp: App {
         .commands {
             TerminalCommands()
         }
-        #if os(macOS)
-        Settings {
-            Text ("These are the macOS settings")
-        }
-        #endif
     }
 }

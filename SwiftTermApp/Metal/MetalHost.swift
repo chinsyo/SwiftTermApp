@@ -98,11 +98,11 @@ public class MetalHost {
         notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
-    @objc func appMovedToBackground () {
+    @objc func appMovedToBackground() {
         stopRunning()
     }
 
-    @objc func appMovedToForeground () {
+    @objc func appMovedToForeground() {
         startRunning()
     }
     

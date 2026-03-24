@@ -10,8 +10,8 @@ import Foundation
 import CoreData
 
 extension CKey: Key {
-    convenience init (context: NSManagedObjectContext, blueprint: Key) {
-        self.init (context: context)
+    convenience init(context: NSManagedObjectContext, blueprint: Key) {
+        self.init(context: context)
         id = blueprint.id
         type = blueprint.type
         name = blueprint.name
@@ -23,7 +23,7 @@ extension CKey: Key {
     public var id: UUID {
         get {
             if sId == nil {
-                sId = UUID ()
+                sId = UUID()
             }
             return sId!
         }
@@ -95,7 +95,7 @@ extension CKey: Key {
             print ("oops")
         }
         if let ic = itemCopy as? Data {
-            return String (bytes: ic, encoding: .utf8) ?? ""
+            return String(bytes: ic, encoding: .utf8) ?? ""
         }
         return ""
     }
@@ -121,7 +121,7 @@ extension CKey: Key {
             print ("oops")
         }
         if let d = itemCopy as? Data {
-            return String (bytes: d, encoding: .utf8) ?? ""
+            return String(bytes: d, encoding: .utf8) ?? ""
         } else {
             return ""
         }
@@ -147,7 +147,7 @@ extension CKey: Key {
     }
     
 
-    func deleteKeychainCompanionData () {
+    func deleteKeychainCompanionData() {
         KeyTools.dump ()
         
         let idKey = id.uuidString

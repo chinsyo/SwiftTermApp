@@ -14,7 +14,7 @@ struct RecentHostsView: View {
     @FetchRequest
     var hosts: FetchedResults<CHost>
     
-    init (limit: Int = 3) {
+    init(limit: Int = 3) {
         _limit = State (initialValue: limit)
         let request: NSFetchRequest<CHost> = CHost.fetchRequest()
 

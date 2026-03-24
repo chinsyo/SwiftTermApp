@@ -100,10 +100,10 @@ protocol Key {
 
 extension Key {
     /// Turns the `publicKey` that contains base64 data into a `Data` object
-    public func getPublicKeyAsData () -> Data {
+    public func getPublicKeyAsData() -> Data {
         let values = publicKey.split (separator: " ")
         if values.count > 2 {
-            if let decoded =  Data (base64Encoded: String (values [1])) {
+            if let decoded =  Data(base64Encoded: String(values [1])) {
                 return decoded
             }
         }

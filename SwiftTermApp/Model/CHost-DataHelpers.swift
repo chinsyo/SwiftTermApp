@@ -12,7 +12,7 @@ extension CHost: Host {
     public var id: UUID {
         get {
             if sId == nil {
-                sId = UUID ()
+                sId = UUID()
             }
             return sId!
         }
@@ -68,7 +68,7 @@ extension CHost: Host {
             return ""
         }
         if let d = itemCopy as? Data {
-            return String (bytes: d, encoding: .utf8) ?? ""
+            return String(bytes: d, encoding: .utf8) ?? ""
         } else {
             return ""
         }

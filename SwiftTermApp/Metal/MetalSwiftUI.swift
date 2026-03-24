@@ -13,19 +13,19 @@ import SwiftUI
 class MetalHostView: UIView {
     var metal: MetalHost!
     
-    public init (frame: CGRect, fragmentName: String)
+    public init(frame: CGRect, fragmentName: String)
     {
         let metalLayer = CAMetalLayer()
         metalLayer.pixelFormat = .bgra8Unorm
         metal = MetalHost(target: metalLayer, fragmentName: fragmentName)
-        super.init (frame: frame)
+        super.init(frame: frame)
         if metal != nil {
             layer.addSublayer(metalLayer)
             metal.startRunning()
         }
     }
 
-    public required init (coder: NSCoder)
+    public required init(coder: NSCoder)
     {
         fatalError()
     }
@@ -60,13 +60,13 @@ struct MetalView: UIViewRepresentable {
 struct MetalSwiftUI_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            Text ("Top")
+            Text("Top")
             HStack {
-                Text ("Hello")
+                Text("Hello")
                 MetalView (shaderFunc: "digitalbrain_fragment_texture")
-                Text ("World")
+                Text("World")
             }
-            Text ("Bottom")
+            Text("Bottom")
         }
     }
 }

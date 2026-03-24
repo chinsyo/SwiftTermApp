@@ -75,51 +75,10 @@ class Connections: ObservableObject {
         }
     }
 
-
     public static func lookupActiveSession (host: Host) -> Session?
     {
         dispatchPrecondition(condition: .onQueue(DispatchQueue.main))
         return shared.sessions.first { $0.host.id == host.id }
     }
-
-//    struct ConnectionState: Encodable, Decodable {
-//        var hostId: UUID
-//        var reconnectType: String
-//        
-//        // The serial associated with the host that we are saving
-//        var serial: Int
-//    }
-//    
-//    // Saves all the connections that could be restored
-//    public static func saveState () {
-//        guard let d = DataStore.shared.defaults else {
-//            return
-//        }
-//        var state: [ConnectionState] = []
-//        for x in shared.connections {
-//            guard x.host.reconnectType != "" else { continue }
-//            state.append (ConnectionState (hostId: x.host.id, reconnectType: x.host.reconnectType, serial: x.serial))
-//        }
-//        guard state.count > 0 else { return }
-//        let coder = JSONEncoder ()
-//        if let encoded = try? coder.encode(state) {
-//            d.set (encoded, forKey: DataStore.shared.connectionsArrayKey)
-//        }
-//        d.synchronize()
-//    }
-//    
-//    public static func getRestorableConnections () -> [ConnectionState] {
-//        guard let d = DataStore.shared.defaults else {
-//            return []
-//        }
-//        let decoder = JSONDecoder ()
-//        
-//        if let data = d.data(forKey: DataStore.shared.connectionsArrayKey) {
-//            if let h = try? decoder.decode ([ConnectionState].self, from: data) {
-//                return h
-//            }
-//        }
-//        return []
-//    }
 }
 

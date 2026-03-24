@@ -162,7 +162,7 @@ struct HomeView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor (\CHost.sLastUsed, order: .reverse)], predicate: NSPredicate (format: "sLastUsed != nil"))
     var hosts: FetchedResults<CHost>
 
-    init () {
+    init() {
         let request: NSFetchRequest<CHost> = CHost.fetchRequest()
 
         request.sortDescriptors = [
@@ -182,10 +182,9 @@ struct HomeView: View {
     
     var body: some View {
         List {
-            //QuickLaunch()
+
             if hosts.count > 0 {
-                Section (header: Text ("Recent")) {
-                    
+                Section (header: Text("Recent")) {
                     RecentHostsView()
                     if transientLaunch ?? false == true {
                         NavigationLink ("Dynamic Launch", destination: ConfigurableUITerminal(host: launchHost, createNew: true), tag: true, selection: $transientLaunch)
@@ -197,63 +196,60 @@ struct HomeView: View {
                     destination: HostsView(),
                     label: {
                         Label("Hosts", systemImage: "desktopcomputer")
-                    })
+                    }
+                )
                 NavigationLink(
                     destination: SessionsView(),
                     label: {
                         HStack {
                             Label("Terminals", systemImage: "terminal")
                             Spacer ()
-                            Text ("\(connections.terminalsCount)")
+                            Text("\(connections.terminalsCount)")
                                 .padding(4)
                                 .foregroundColor(Color (.systemGray))
                         }
-
-                    })
+                    }
+                )
                 NavigationLink(
                     destination: KeyManagementView(),
                     label: {
                         Label("Keys", systemImage: "key")
-                    })
+                    }
+                )
                 NavigationLink(
                     destination: HostKeysList (),
                     label: {
                         Label("Known Hosts", systemImage: "lock.desktopcomputer")
-                    })
+                    }
+                )
                 NavigationLink(
                     destination: SnippetBrowser(),
                     label: {
                         Label ("Snippets", systemImage: "note.text")
-                    })
+                    }
+                )
                 NavigationLink(
                     destination: SettingsView(),
                     label: {
                         Label("Settings", systemImage: "gear")
-                    })
+                    }
+                )
                 NavigationLink(
-                    
                     destination: HistoryView(),
                     label: {
                         Label("History", systemImage: "clock")
-                    })
+                    }
+                )
 
-            }
-            
-            Section {
-                NavigationLink(
-                    destination: CreditsView(),
-                    label: {
-                        Label("Credits", systemImage: "info.circle")
-                    })
             }
             
             #if DEBUG
             if FileManager.default.fileExists(atPath: "/tmp/enable-dangerous-diagnostics") {
                 Section {
-                    Button ("Diagnostics - Dump State (DANGEROUS, EXPOSES CONFIDENTIAL DATA in /TMP DUMP) ") {
-                        DataStore.shared.dumpData ()
+                    Button("Diagnostics - Dump State (DANGEROUS, EXPOSES CONFIDENTIAL DATA in /TMP DUMP) ") {
+                        DataStore.shared.dumpData()
                     }
-                    Button ("Clear all KeyChain Elements") {
+                    Button("Clear all KeyChain Elements") {
                         KeyTools.reset ()
                     }
                 }
