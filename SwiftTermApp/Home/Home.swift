@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-//import Shake
 import Introspect
 import CoreData
 
@@ -251,11 +250,6 @@ struct HomeView: View {
                     label: {
                         Label("Credits", systemImage: "info.circle")
                     })
-//                Button (
-//                    action: { Shake.show(.home) },
-//                    label: {
-//                        Label("Support", systemImage: "questionmark.circle")
-//                    })
             }
             
             #if DEBUG

@@ -400,8 +400,6 @@
 "F9" = "F9";
 "F10" = "F10";
 
-"Need help?  Shake your device or use the 'Support' menu option to report a bug or to share feedback or a feature request." = "¿Necesitas ayuda?   Sacude tu equipo o selecciona 'Soporte' en el menu para repotar problemas, enviarnos sugerencias o compartir tus opiniones.";
-
 
 "SwiftTermApp remembers the digital fingerprints of each host you have connected to.   These fingerprints are used to ensure that you do not accidentally log into a malicious host that can steal information from you.\n\nIn some scenarios, when a computer system is reinstalled the keys might change, and you might want to consider removing it from the list of known hosts.\n\nYou can use the fingerprint to visually inspect if the key matches the host you are trying to connect to." = "SwiftTermApp recuerda las huellas digitales de cada computadora al que te has conectado.  Estas huellas digitales se usan para evitar que te conectes accidentalmente a una computadora bajo control de un tercercero que quiere atacarte.\n\nEn algunos casoos, cuando una computadora se ha reinstalado o actualizado, las huellas digitales pueden cambiar - en ese caso, considera borrar la huella digital registrada de la lista.\n\nPuedes usar la huella digital visualmente para verificar que corresponde a la computadora a la que querías conectarte.";
 

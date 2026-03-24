@@ -1,2 +1,0 @@
-let shakeId = ""
-let shakeKey = ""

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-//import Shake
 
 /// Databases (both configurations, local and cloudKit are here)
 var globalDataController = DataController ()
@@ -28,23 +27,9 @@ struct SampleApp: App {
         }
     }
     init () {
-//        if shakeKey != "" {
-//            Shake.configuration.isCrashReportingEnabled = true
-//            Shake.configuration.isAskForCrashDescriptionEnabled = true
-//            Shake.start(clientId: shakeId, clientSecret: shakeKey)
-//            if let userId = UIDevice.current.identifierForVendor?.uuidString {
-//                Shake.registerUser(userId: userId)
-//            }
-//        }
         if settings.locationTrack {
             locationTrackerStart()
         }
-//        for family in UIFont.familyNames.sorted() {
-//            let names = UIFont.fontNames(forFamilyName: family)
-//            print("Family: \(family) Font names: \(names)")
-//        }
-//        print ("here")
-        
         _dataController = StateObject(wrappedValue: globalDataController)
     }
     

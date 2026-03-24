@@ -37,7 +37,6 @@
 		4943DA5827EE471F00E4E2F5 /* SnippetEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943DA5727EE471F00E4E2F5 /* SnippetEditor.swift */; };
 		4943DA5B27EE5C2000E4E2F5 /* CommandPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943DA5A27EE5C2000E4E2F5 /* CommandPicker.swift */; };
 		4943DA5D27EE5C6F00E4E2F5 /* SnippetSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943DA5C27EE5C6F00E4E2F5 /* SnippetSummary.swift */; };
-		4943DA5F27F385D500E4E2F5 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943DA5E27F385D500E4E2F5 /* Secrets.swift */; };
 		4943DA6427F3BA5000E4E2F5 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943DA6327F3BA5000E4E2F5 /* HistoryView.swift */; };
 		4943DA6627F4B11A00E4E2F5 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943DA6527F4B11A00E4E2F5 /* HistoryController.swift */; };
 		4943DA6C27F5F90B00E4E2F5 /* DateFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4943DA6B27F5F90B00E4E2F5 /* DateFormatting.swift */; };
@@ -161,7 +160,6 @@
 		4943DA5727EE471F00E4E2F5 /* SnippetEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetEditor.swift; sourceTree = "<group>"; };
 		4943DA5A27EE5C2000E4E2F5 /* CommandPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandPicker.swift; sourceTree = "<group>"; };
 		4943DA5C27EE5C6F00E4E2F5 /* SnippetSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetSummary.swift; sourceTree = "<group>"; };
-		4943DA5E27F385D500E4E2F5 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		4943DA6327F3BA5000E4E2F5 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		4943DA6527F4B11A00E4E2F5 /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
 		4943DA6B27F5F90B00E4E2F5 /* DateFormatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatting.swift; sourceTree = "<group>"; };
@@ -304,7 +302,6 @@
 				4967B9FB2459239700A9D2A6 /* Connections.swift */,
 				49011691245622C6002C1F85 /* DataStore.swift */,
 				499D36A52656B747004E307F /* QuickLauch.swift */,
-				4943DA5E27F385D500E4E2F5 /* Secrets.swift */,
 				4901167B2455378A002C1F85 /* Assets.xcassets */,
 				4943DA5927EE5C1200E4E2F5 /* Command */,
 				49B84C5626818C4700B36066 /* Extensions */,
@@ -842,7 +839,6 @@
 				4912EB752826EE1F0083638C /* Dialogs.swift in Sources */,
 				4911B3042463AD3E00816BAA /* GenerateKey.swift in Sources */,
 				49F1D14A27DD0FFF004A9CB1 /* SideHostStatus.swift in Sources */,
-				4943DA5F27F385D500E4E2F5 /* Secrets.swift in Sources */,
 				49F0741024834B9D00A83CDC /* AppTerminalView.swift in Sources */,
 				4943DA5827EE471F00E4E2F5 /* SnippetEditor.swift in Sources */,
 				49F0740C2481B3ED00A83CDC /* ColorLoader.swift in Sources */,
