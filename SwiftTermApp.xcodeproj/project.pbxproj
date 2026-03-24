@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -162,7 +162,6 @@
 		4943DA5A27EE5C2000E4E2F5 /* CommandPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandPicker.swift; sourceTree = "<group>"; };
 		4943DA5C27EE5C6F00E4E2F5 /* SnippetSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetSummary.swift; sourceTree = "<group>"; };
 		4943DA5E27F385D500E4E2F5 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
-		4943DA6127F388F600E4E2F5 /* ci_pre_xcodebuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_pre_xcodebuild.sh; sourceTree = "<group>"; };
 		4943DA6327F3BA5000E4E2F5 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		4943DA6527F4B11A00E4E2F5 /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
 		4943DA6B27F5F90B00E4E2F5 /* DateFormatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatting.swift; sourceTree = "<group>"; };
@@ -275,7 +274,6 @@
 		4901166924553789002C1F85 = {
 			isa = PBXGroup;
 			children = (
-				4943DA6027F388C700E4E2F5 /* ci_scripts */,
 				4901167424553789002C1F85 /* SwiftTermApp */,
 				49F1D13F27DAB782004A9CB1 /* UITests */,
 				4901167324553789002C1F85 /* Products */,
@@ -381,14 +379,6 @@
 				4943DA5A27EE5C2000E4E2F5 /* CommandPicker.swift */,
 			);
 			path = Command;
-			sourceTree = "<group>";
-		};
-		4943DA6027F388C700E4E2F5 /* ci_scripts */ = {
-			isa = PBXGroup;
-			children = (
-				4943DA6127F388F600E4E2F5 /* ci_pre_xcodebuild.sh */,
-			);
-			path = ci_scripts;
 			sourceTree = "<group>";
 		};
 		4943DA6227F3BA3F00E4E2F5 /* History */ = {
@@ -1058,11 +1048,12 @@
 				CODE_SIGN_ENTITLEMENTS = SwiftTermApp/SwiftTermApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"SwiftTermApp/Preview Content\"";
-				DEVELOPMENT_TEAM = PJQC57N853;
+				DEVELOPMENT_TEAM = C96623C463;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = SwiftTermApp/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1070,7 +1061,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "";
 				MARKETING_VERSION = 1.3;
-				PRODUCT_BUNDLE_IDENTIFIER = org.tirania.SwiftTermAppX;
+				PRODUCT_BUNDLE_IDENTIFIER = com.atomflip.Slash;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1086,11 +1077,12 @@
 				CODE_SIGN_ENTITLEMENTS = SwiftTermApp/SwiftTermApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"SwiftTermApp/Preview Content\"";
-				DEVELOPMENT_TEAM = PJQC57N853;
+				DEVELOPMENT_TEAM = C96623C463;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = SwiftTermApp/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1098,7 +1090,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "";
 				MARKETING_VERSION = 1.3;
-				PRODUCT_BUNDLE_IDENTIFIER = org.tirania.SwiftTermAppX;
+				PRODUCT_BUNDLE_IDENTIFIER = com.atomflip.Slash;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

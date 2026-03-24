@@ -207,13 +207,14 @@ struct HomeView: View {
                 NavigationLink(
                     destination: SessionsView(),
                     label: {
-                        Label("Terminals", systemImage: "terminal")
-                        Spacer ()
-                        Text ("\(connections.terminalsCount)")
-                            .padding(4)
-                            .background(Color (.systemGray5))
-                            .cornerRadius(3)
-                            .foregroundColor(Color (.systemGray))
+                        HStack {
+                            Label("Terminals", systemImage: "terminal")
+                            Spacer ()
+                            Text ("\(connections.terminalsCount)")
+                                .padding(4)
+                                .foregroundColor(Color (.systemGray))
+                        }
+
                     })
                 NavigationLink(
                     destination: KeyManagementView(),
