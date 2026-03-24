@@ -139,7 +139,7 @@ struct SessionsView: View {
 
 struct NoSessionsView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    @FetchRequest (sortDescriptors: [SortDescriptor (\CHost.sLastUsed, order: .reverse)], predicate: NSPredicate (format: "sLastUsed != nil"))
+    @FetchRequest(sortDescriptors: [SortDescriptor (\CHost.sLastUsed, order: .reverse)], predicate: NSPredicate (format: "sLastUsed != nil"))
     var hosts: FetchedResults<CHost>
 
 

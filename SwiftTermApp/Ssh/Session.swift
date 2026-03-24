@@ -365,7 +365,7 @@ class Session: CustomDebugStringConvertible, Equatable {
                     }
                 }
                 let result = await passTask.result
-                if let error = try? result.get() {
+                if let error = result.get() {
                     logConnection("SSH: authentication error \(error)")
                     cumulativeErrors.append(error)
                 } else {
@@ -425,7 +425,7 @@ class Session: CustomDebugStringConvertible, Equatable {
                 }
                 
                 let result = await passTask.result
-                if let error = try? result.get() {
+                if let error = result.get() {
                     logConnection("SSH: authentication error \(error)")
                     cumulativeErrors.append(error)
                 } else {

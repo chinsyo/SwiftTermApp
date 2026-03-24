@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import Introspect
 import CoreData
 
 struct ContentView: View {
@@ -48,11 +47,7 @@ struct LargeHomeView: View {
     var body: some View {
         NavigationView {
             HomeView ()
-            
             DefaultHomeView ()
-        }.introspectSplitViewController { x in
-            controller = x
-            savedMode = x.displayMode
         }.onChange(of: scenePhase) { newPhase in
             switch newPhase {
             case .active:
@@ -164,7 +159,7 @@ struct HomeView: View {
     @State var transientLaunch: Bool? = false
     @State var firstRun = getFirstRun ()
 
-    @FetchRequest (sortDescriptors: [SortDescriptor (\CHost.sLastUsed, order: .reverse)], predicate: NSPredicate (format: "sLastUsed != nil"))
+    @FetchRequest(sortDescriptors: [SortDescriptor (\CHost.sLastUsed, order: .reverse)], predicate: NSPredicate (format: "sLastUsed != nil"))
     var hosts: FetchedResults<CHost>
 
     init () {

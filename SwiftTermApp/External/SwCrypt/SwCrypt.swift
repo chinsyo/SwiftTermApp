@@ -1479,7 +1479,7 @@ open class CC {
         fileprivate static let CCRSACryptorEncrypt: CCRSACryptorEncryptT? =
             getFunc(dl!, f: "CCRSACryptorEncrypt")
 
-        fileprivate typealias CCRSACryptorDecryptT = @convention (c) (
+        fileprivate typealias CCRSACryptorDecryptT = @convention(c) (
             _ privateKey: CCRSACryptorRef,
             _ padding: CCAsymmetricPadding,
             _ cipherText: UnsafeRawPointer,
