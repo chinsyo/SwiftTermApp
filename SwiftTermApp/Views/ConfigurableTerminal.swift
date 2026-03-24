@@ -67,7 +67,7 @@ struct RunningTerminalConfig: View {
 
 struct ConfigurableUITerminal: View {
     @State var host: Host?
-    @State var terminalView: SshTerminalView?
+    @State var terminalView: SSHTerminalView?
     @State var createNew: Bool = false
     @State var interactive: Bool = true
     @State var showConfig: Bool = false

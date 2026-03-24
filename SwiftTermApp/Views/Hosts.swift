@@ -146,7 +146,7 @@ struct iPadHostSummaryView: View {
 }
 
 struct HostsView : View {
-    @EnvironmentObject var dataController: DataController
+    @Environment(\.dataController) var dataController
     @State var showHostEdit: Bool = false
     private var hosts: FetchRequest<CHost>
     @State var newHost: Bool = false
@@ -219,7 +219,7 @@ struct Hosts_Previews: PreviewProvider {
         NavigationView {
             HostsView()
                 .environment(\.managedObjectContext, dataController.container.viewContext)
-                .environmentObject(dataController)
+                .environment(\.dataController, dataController)
         }
     }
 }

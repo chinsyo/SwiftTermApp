@@ -13,6 +13,7 @@ import Foundation
 import SwiftTerm
 import UIKit
 import Combine
+import Observation
 
 /**
  * AppTerminalView is the subclass of TerminalView that provides the integration
@@ -22,7 +23,7 @@ import Combine
  *
  * Additionally, it has the "pinch" handler for changing the font size.
  *
- * The `SshTerminalView` is a subclass that adds other capabilities
+ * The `SSHTerminalView` is a subclass that adds other capabilities
  */
 public class AppTerminalView: TerminalView {
     var id = UUID()
@@ -33,10 +34,7 @@ public class AppTerminalView: TerminalView {
     var userOverrideSize = false
     
     // These are the handlers used to track changes on the global `settings` variables
-    var sizeChange: AnyCancellable?
-    var fontChange: AnyCancellable?
-    var themeChange: AnyCancellable?
-    var backgroundChange: AnyCancellable?
+    var settingsChange: AnyCancellable?
     var hostChange: AnyCancellable?
     
     /// If set, it means that we are using Metal for our background
@@ -55,28 +53,20 @@ public class AppTerminalView: TerminalView {
         self.host = host
         super.init(frame: frame)
         
-        // Changes that take place by global settings
-        sizeChange = settings.$fontSize.sink { [weak self] newSize in
+        // Use Combine publisher for tracking settings changes
+        settingsChange = settings.propertyChanges.sink { [weak self] in
             guard let self = self else { return }
+            
+            // React to any settings changes
             if !self.userOverrideSize {
-                self.updateFont (newSize: settings.resolveFontSize (newSize))
+                self.updateFont(newSize: settings.resolveFontSize(settings.fontSize))
             }
-        }
-        fontChange = settings.$fontName.sink { [weak self] _ in
-            guard let self = self else { return }
-
-            self.updateFont (newSize: settings.resolveFontSize (settings.fontSize))
-        }
-        themeChange = settings.$themeName.sink { [weak self] _ in
-            guard let self = self else { return }
-
+            self.updateFont(newSize: settings.resolveFontSize(settings.fontSize))
+            
             if self.useSharedTheme {
                 self.applyTheme(theme: settings.getTheme())
             }
-        }
-        backgroundChange = settings.$backgroundStyle.sink { [weak self] _ in
-            guard let self = self else { return }
-
+            
             self.updateBackground(background: self.useDefaultBackground ? settings.backgroundStyle : host.background)
         }
         

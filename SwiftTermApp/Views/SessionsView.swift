@@ -12,7 +12,7 @@ import SwiftUI
 import CoreData
 
 struct SessionDetailsView: View {
-    var terminalView: SshTerminalView
+    var terminalView: SSHTerminalView
     @Binding var count: Int
     var body: some View {
         ZStack {
@@ -54,11 +54,11 @@ struct SessionDetailsView: View {
 /// This resizes the terminal
 struct SessionView: View {
     @Environment(\.colorScheme) var colorScheme
-    var terminalView: SshTerminalView
+    var terminalView: SSHTerminalView
     var immediateController: SwiftUITerminal
     @Binding var count: Int
     
-    init(terminalView: SshTerminalView, count: Binding<Int>)
+    init(terminalView: SSHTerminalView, count: Binding<Int>)
     {
         self.terminalView = terminalView
         self.immediateController = SwiftUITerminal(host: nil, existing: terminalView, createNew: false, interactive: false)
@@ -99,7 +99,7 @@ struct SessionView: View {
 /// Displays all the live sessions in a grid
 ///
 struct SessionsView: View {
-    @ObservedObject var connections = Connections.shared
+    @State var connections = Connections.shared
     @State var count: Int
     
     init()

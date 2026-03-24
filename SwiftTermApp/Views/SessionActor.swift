@@ -13,7 +13,7 @@ import Foundation
 import Network
 import CryptoKit
 
-@_implementationOnly import CSSH
+import CSSH
 
 typealias SocketCallback = @convention(c) (libssh2_socket_t, UnsafeRawPointer, size_t, CInt, UnsafeRawPointer) -> ssize_t
 typealias DebugCallback  = @convention(c) (libssh2_socket_t, CInt, UnsafeRawPointer, CInt, UnsafeRawPointer, CInt, UnsafeRawPointer) -> ()

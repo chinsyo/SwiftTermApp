@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SnippetEditor: View {
-    @EnvironmentObject var dataController: DataController
+    @Environment(\.dataController) var dataController
     @State var snippet: CUserSnippet?
     @State var title: String = ""
     @State var command: String = ""

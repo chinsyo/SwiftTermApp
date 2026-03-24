@@ -1,5 +1,5 @@
 //
-//  SshTerminalView.swift
+//  SSHTerminalView.swift
 //
 //  The SSH Terminal View, connects the TerminalView with SSH
 //
@@ -21,7 +21,7 @@ enum MyError : Error {
 ///
 /// Extends the AppTerminalView with elements for the connection
 ///
-public class SshTerminalView: AppTerminalView, TerminalViewDelegate, SessionDelegate {
+public class SSHTerminalView: AppTerminalView, TerminalViewDelegate, SessionDelegate {
     /// The current directory as reported by the remote host.
     public var currentDirectory: String? = nil
     
@@ -64,7 +64,7 @@ public class SshTerminalView: AppTerminalView, TerminalViewDelegate, SessionDele
             while next < last {
                 
                 let end = min (next+blocksize, last)
-                let chunk = sliced [next..<end]
+                let chunk = sliced[next..<end]
             
                 DispatchQueue.main.sync {
                     self.feed(byteArray: chunk)

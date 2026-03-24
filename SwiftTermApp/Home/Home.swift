@@ -14,7 +14,7 @@ struct ContentView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 #endif
 
-    @ObservedObject var store: DataStore = DataStore.shared
+    @State var store: DataStore = DataStore.shared
 
     var body: some View {
 #if os(iOS)
@@ -48,7 +48,7 @@ struct LargeHomeView: View {
         NavigationView {
             HomeView ()
             DefaultHomeView ()
-        }.onChange(of: scenePhase) { newPhase in
+        }.onChange(of: scenePhase) { _, newPhase in
             switch newPhase {
             case .active:
                 if let c = controller {
@@ -148,12 +148,12 @@ func promptMissingUser (_ parentController: UIViewController) async -> String? {
 func getFirstRun () -> Bool {
     let key = "launchedBefore"
     let ran = UserDefaults.standard.bool(forKey: key)
-    UserDefaults.standard.set (true, forKey: key)
+    UserDefaults.standard.set(true, forKey: key)
     return !ran
 }
 
 struct HomeView: View {
-    @ObservedObject var connections = Connections.shared
+    @State var connections = Connections.shared
     @Environment(\.scenePhase) var scenePhase
     @State var launchHost: Host? = nil
     @State var transientLaunch: Bool? = false
@@ -257,7 +257,7 @@ struct HomeView: View {
             #endif
         }
         .listStyle(GroupedListStyle())
-        .onChange(of: scenePhase) { newPhase in
+        .onChange(of: scenePhase) { _, newPhase in
             switch newPhase {
             case .active:
                 break

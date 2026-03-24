@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@_implementationOnly import CSSH
+import CSSH
 
 public enum KnownHostStatus {
     /// hosts and keys match.

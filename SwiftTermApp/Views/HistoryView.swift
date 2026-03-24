@@ -33,8 +33,8 @@ struct MakeMap: View {
     @State var region: MKCoordinateRegion
     @State var loc: HistoryLocation
     var body: some View {
-        return Map (coordinateRegion: $region, annotationItems: [loc]) { place in
-            MapPin(coordinate: place.coordinate)
+        Map(initialPosition: .region(region)) {
+            Marker("Location", coordinate: loc.coordinate)
         }
     }
 }
@@ -53,22 +53,22 @@ struct HistoryDetail: View {
         let lat = loc.latitude.formatted(.number)
         let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: loc.latitude, longitude: loc.longitude), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
 
-        return AnyView (VStack {
-            Pair ("Longitude", "\(long)")
-            Pair ("Latitude", "\(lat)")
-            MakeMap (region: region, loc: loc)
+        return AnyView(VStack {
+            Pair("Longitude", "\(long)")
+            Pair("Latitude", "\(lat)")
+            MakeMap(region: region, loc: loc)
                 .frame(minWidth: 300, minHeight: 300)
 
-        }.padding ([.leading]))
+        }.padding([.leading]))
     }
     
     var body: some View {
         Form {
-            Pair ("Alias", historyRecord.alias)
-            Pair ("Username", historyRecord.username ?? "")
-            Pair ("Address", historyRecord.hostname ?? "")
-            Pair ("Date", dateMediumFormatter.string(from: historyRecord.date ?? Date ()))
-            Pair ("Time", timeFormatter.string(from: historyRecord.date ?? Date ()))
+            Pair("Alias", historyRecord.alias)
+            Pair("Username", historyRecord.username ?? "")
+            Pair("Address", historyRecord.hostname ?? "")
+            Pair("Date", dateMediumFormatter.string(from: historyRecord.date ?? Date ()))
+            Pair("Time", timeFormatter.string(from: historyRecord.date ?? Date ()))
             switch historyRecord.typedEvent {
             case .none:
                 Pair ("Typed", "Error")
@@ -142,8 +142,8 @@ struct HistoryView: View {
                     
                     /// Poor man's refresh: change the predicate to force a refresh, this is the only hack I could find that works
                     let old = history.nsPredicate
-                    history.nsPredicate = NSPredicate (value: true)
-                    history .nsPredicate = old
+                    history.nsPredicate = NSPredicate(value: true)
+                    history.nsPredicate = old
                 }
             }
         }

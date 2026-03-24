@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SnippetBrowser: View {
-    @EnvironmentObject var dataController: DataController
+    @Environment(\.dataController) var dataController
     private var snippets: FetchRequest<CUserSnippet>
     @State var activatedItem: CUserSnippet? = nil
     @State var newSnippet: Bool = false

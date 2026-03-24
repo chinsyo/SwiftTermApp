@@ -20,7 +20,7 @@ struct PasteKeyButton: View {
 
 
 struct KeyManagementView: View {
-    @EnvironmentObject var dataController: DataController
+    @Environment(\.dataController) var dataController
     private var keys: FetchRequest<CKey>
     @State var newKeyShown = false
     @State var addFromFileShown = false

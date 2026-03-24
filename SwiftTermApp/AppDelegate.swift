@@ -14,13 +14,13 @@ var globalDataController = DataController ()
 struct SampleApp: App {
     @State var dates = [Date]()
     @State var launchHost: Host?
-    @StateObject var dataController: DataController
+    @State var dataController: DataController
     @Environment(\.scenePhase) var scenePhase
 
     func extendLifetime () {
         // Attempts to keep the app alive, so our sockets are not killed within one second of going into the background
         var backgroundHandle: UIBackgroundTaskIdentifier? = nil
-        backgroundHandle = UIApplication.shared.beginBackgroundTask(withName: "lifetime extender") {
+        backgroundHandle = UIApplication.shared.beginBackgroundTask(withName: "lifetime extender") { [backgroundHandle] in
             if let handle = backgroundHandle {
                 UIApplication.shared.endBackgroundTask(handle)
             }
@@ -30,7 +30,7 @@ struct SampleApp: App {
         if settings.locationTrack {
             locationTrackerStart()
         }
-        _dataController = StateObject(wrappedValue: globalDataController)
+        dataController = globalDataController
     }
     
     var body: some Scene {
@@ -44,13 +44,13 @@ struct SampleApp: App {
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                     locationTrackerSuspend()
                 }
-                .onChange(of: scenePhase) { newPhase in
+                .onChange(of: scenePhase) { _, newPhase in
                     if newPhase == .background {
                         extendLifetime ()
                     }
                 }
                 .environment(\.managedObjectContext, dataController.container.viewContext)
-                .environmentObject(dataController)
+                .environment(\.dataController, dataController)
 
         }
         .commands {

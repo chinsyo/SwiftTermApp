@@ -45,9 +45,11 @@ struct QuickLaunch: View {
     }
     
     var body: some View {
-        NavigationLink(destination: DelayedSwiftUITerminal (destHost: $destHost), isActive: $activate)  {
+        NavigationLink(
+            destination: DelayedSwiftUITerminal(destHost: $destHost),
+            isActive: $activate)
+        {
             HStack {
-                
                 TextField("user@hostname:22", text: $quickCommand)
                     .keyboardType(.emailAddress)
                     .autocapitalization(.none)

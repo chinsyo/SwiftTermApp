@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@_implementationOnly import CSSH
+import CSSH
 
 public func libSsh2ErrorToString(error: CInt) -> String {
     switch error {

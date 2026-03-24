@@ -1,7 +1,7 @@
 //
 //  TerminalViewController.swift
 //
-//  This view controller can be used for any TerminalViews (currently just SshTerminalView, but hopefully a Mosh one later)
+//  This view controller can be used for any TerminalViews (currently just SSHTerminalView, but hopefully a Mosh one later)
 //
 //  Created by Miguel de Icaza on 5/5/20.
 //  Copyright © 2020 Miguel de Icaza. All rights reserved.
@@ -21,7 +21,7 @@ import SwiftUI
 ///
 class TerminalViewController: UIViewController {
     // If this is nil, it will trigger the SSH workflow.
-    var terminalView: SshTerminalView?
+    var terminalView: SSHTerminalView?
     var interactive: Bool
     var host: Host
     static var Serial: Int = 0
@@ -48,7 +48,7 @@ class TerminalViewController: UIViewController {
     }
 
     // This consturctor is used to create a fresh TerminalViewController from an existing TerminalView
-    init(terminalView: SshTerminalView, interactive: Bool)
+    init(terminalView: SSHTerminalView, interactive: Bool)
     {
         TerminalViewController.Serial += 1
         self.terminalView = terminalView
@@ -63,9 +63,9 @@ class TerminalViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func startConnection() -> SshTerminalView? {
+    func startConnection() -> SSHTerminalView? {
         do {
-            let tv = try SshTerminalView(frame: view.frame, host: host)
+            let tv = try SSHTerminalView(frame: view.frame, host: host)
             tv.serial = self.serial
             if host.style == "" {
                 tv.applyTheme (theme: settings.getTheme())
@@ -165,7 +165,7 @@ typealias Controller = TerminalViewController
 // This is the wrapper to use the TerminalViewController in Swift
 //
 struct SwiftUITerminal: UIViewControllerRepresentable {
-    var terminalView: SshTerminalView?
+    var terminalView: SSHTerminalView?
     class MutableSideData {
         var viewController: TerminalViewController?
     }
@@ -174,7 +174,7 @@ struct SwiftUITerminal: UIViewControllerRepresentable {
     
     enum Kind {
         case host (host: Host, createNew: Bool)
-        case rehost (rehost: SshTerminalView)
+        case rehost (rehost: SSHTerminalView)
     }
     
     var kind: Kind
@@ -183,9 +183,9 @@ struct SwiftUITerminal: UIViewControllerRepresentable {
     
     /// Creates a new SwiftUITerminal, either it creates a new one based on a host configuration (`host` is not nil), in which
     /// case the `createNew` parameter indicates if this should createa  new host or not.   If `host` is nil, then
-    /// this assumes that this is going to rehost an existing SshTerminalView, in that case, `existing` should not
+    /// this assumes that this is going to rehost an existing SSHTerminalView, in that case, `existing` should not
     /// be nil.
-    init(host: Host?, existing: SshTerminalView?, createNew: Bool, interactive: Bool) {
+    init(host: Host?, existing: SSHTerminalView?, createNew: Bool, interactive: Bool) {
         self.mutableSideData = MutableSideData()
         if host == nil {
             assert (existing != nil)

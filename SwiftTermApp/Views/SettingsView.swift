@@ -8,56 +8,79 @@
 
 import SwiftUI
 import SwiftTerm
+import Observation
+import Combine
+
+// Notification name for settings changes (for UIKit observers)
+extension Notification.Name {
+    static let settingsChanged = Notification.Name("settingsChanged")
+}
 
 // The application settings
-class Settings: ObservableObject {
-    var defaults = UserDefaults (suiteName: "SwiftTermApp")
+@Observable
+class Settings {
+    var defaults = UserDefaults(suiteName: "SwiftTermApp")
+    
+    // Combine publisher for UIKit code that needs to observe changes
+    var propertyChanges = PassthroughSubject<Void, Never>()
+    private var isInitializing = false
+    
+    private func notifyChanged() {
+        if isInitializing { return }
+        propertyChanges.send()
+        NotificationCenter.default.post(name: .settingsChanged, object: self)
+    }
     
     func updateKeepOn () {
         UIApplication.shared.isIdleTimerDisabled = keepOn && Connections.shared.sessions.count > 0
     }
     
-    @Published var keepOn: Bool = true {
+    var keepOn: Bool = true {
         didSet {
             updateKeepOn ()
-
-            defaults?.set (keepOn, forKey: "keepOn")
+            defaults?.set(keepOn, forKey: "keepOn")
+            notifyChanged()
         }
     }
     
-    @Published var locationTrack: Bool = false {
+    var locationTrack: Bool = false {
         didSet {
             if locationTrack {
                 locationTrackerStart()
             } else {
                 locationTrackerStop()
             }
-            defaults?.set (keepOn, forKey: "locationTrack")
+            defaults?.set(keepOn, forKey: "locationTrack")
+            notifyChanged()
         }
     }
     
-    @Published var beepConfig: BeepKind = .vibrate {
+    var beepConfig: BeepKind = .vibrate {
         didSet {
-            defaults?.set (beepConfig.rawValue, forKey: "beepConfig")
+            defaults?.set(beepConfig.rawValue, forKey: "beepConfig")
+            notifyChanged()
         }
     }
-    @Published var themeName: String = "Pro" {
+    var themeName: String = "Pro" {
         didSet {
-            defaults?.set (themeName, forKey: "theme")
+            defaults?.set(themeName, forKey: "theme")
+            notifyChanged()
         }
     }
-    @Published var fontName: String = fontNames [0] {
+    var fontName: String = fontNames [0] {
         didSet {
-            defaults?.set (fontName, forKey: "fontName")
+            defaults?.set(fontName, forKey: "fontName")
+            notifyChanged()
         }
     }
-    let fontSizeKey = "fontSize2"
     // 0 indicates "use system font", use `resolveFontSize` to get the actual size
-    @Published var fontSize: CGFloat {
+    var fontSize: CGFloat {
         didSet {
-            defaults?.set (fontSize, forKey: fontSizeKey)
+            defaults?.set(fontSize, forKey: Settings.fontSizeKey)
+            notifyChanged()
         }
     }
+    static let fontSizeKey = "fontSize2"
     
     // fontSize reflects the font size configured, which can be zero to
     // indicate "Use the system .body default", this one is resolved
@@ -66,39 +89,41 @@ class Settings: ObservableObject {
         if size == 0 {
             // This currently decides on the device size, probably should be based on the view.
             let compact = UIScreen.main.traitCollection.horizontalSizeClass == .compact
-            
             return UIFont.preferredFont(forTextStyle: compact ? .caption1 : .body).pointSize
         } else {
             return size
         }
     }
     
-    @Published var backgroundStyle: String = "" {
+    var backgroundStyle: String = "" {
         didSet {
-            defaults?.set (backgroundStyle, forKey: "backgroundStyle")
+            defaults?.set(backgroundStyle, forKey: "backgroundStyle")
+            notifyChanged()
         }
     }
 
-    func getTheme (themeName: String? = nil) -> ThemeColor
-    {
+    func getTheme(themeName: String? = nil) -> ThemeColor {
         if let t = themes.first(where: { $0.name == themeName ?? self.themeName }) {
             return t
         }
-        return themes [0]
+        return themes[0]
     }
     
     init() {
-        keepOn = defaults?.bool(forKey: "keepOn") ?? true
-        beepConfig = BeepKind (rawValue: defaults?.string(forKey: "beepConfig") ?? "vibrate") ?? .vibrate
-        themeName = defaults?.string(forKey: "theme") ?? "Pro"
-        fontName = defaults?.string(forKey: "fontName") ?? "SF Mono"
+        isInitializing = true
+        let d = UserDefaults(suiteName: "SwiftTermApp")
+        keepOn = d?.bool(forKey: "keepOn") ?? true
+        beepConfig = BeepKind (rawValue: d?.string(forKey: "beepConfig") ?? "vibrate") ?? .vibrate
+        themeName = d?.string(forKey: "theme") ?? "Pro"
+        fontName = d?.string(forKey: "fontName") ?? "SF Mono"
         
-        if let fontSizeConfig = defaults?.double(forKey: fontSizeKey) {
+        if let fontSizeConfig = d?.double(forKey: Settings.fontSizeKey) {
             fontSize = fontSizeConfig == 0 ? 0 : max (5.0, fontSizeConfig)
         } else {
             fontSize = 0
         }
-        backgroundStyle = defaults?.string(forKey: "backgroundStyle") ?? ""
+        backgroundStyle = d?.string(forKey: "backgroundStyle") ?? ""
+        isInitializing = false
     }
 }
 
@@ -112,21 +137,21 @@ enum BeepKind: String {
     case vibrate
 }
 
-
 // Converts a SwiftTerm.Color into a SwiftUI.Color
-func term2ui (_ stcolor: SwiftTerm.Color) -> SwiftUI.Color {
-    SwiftUI.Color (red: Double (stcolor.red)/65535.0,
-                   green: Double (stcolor.green)/65535.0,
-                   blue: Double (stcolor.blue)/65535.0)
+func term2ui (_ color: SwiftTerm.Color) -> SwiftUI.Color {
+    SwiftUI.Color(
+        red: Double(color.red) / 65535.0,
+        green: Double(color.green) / 65535.0,
+        blue: Double(color.blue) / 65535.0
+    )
 }
 
 struct ColorSwatch: View {
     var color: SwiftTerm.Color
-    
     var body: some View {
-        Rectangle ()
-            .fill (term2ui (color))
-            .frame (width: 11, height: 11)
+        Rectangle()
+            .fill(term2ui(color))
+            .frame(width: 11, height: 11)
             .shadow(radius: 1)
     }
 }
@@ -142,7 +167,7 @@ struct ThemePreview: View {
             Rectangle ()
                 .fill (term2ui(themeColor.background))
              
-            VStack(spacing: 6){
+            VStack(spacing: 6) {
                 HStack(alignment: .firstTextBaseline) {
                     Text(title ?? themeColor.name)
                         .allowsTightening(true)
@@ -152,13 +177,15 @@ struct ThemePreview: View {
                         .foregroundColor(term2ui(themeColor.foreground))
                     Spacer ()
                 }.frame (height: 24)
-                HStack(spacing: 5){
-                    ForEach (0..<7) { x in
+                
+                HStack(spacing: 5) {
+                    ForEach (0 ..< 7) { x in
                         ColorSwatch (color: self.themeColor.ansi [x])
                     }
                 }
-                HStack(spacing: 5){
-                    ForEach (8..<15) { x in
+                
+                HStack(spacing: 5) {
+                    ForEach (8 ..< 15) { x in
                         ColorSwatch (color: self.themeColor.ansi [x])
                     }
                 }
@@ -178,13 +205,12 @@ struct FontSize: View {
     var body: some View {
         Text(caption)
             .background(
-                RoundedRectangle (cornerRadius: 5, style: .continuous)
-                    .stroke(self.currentSize == size ? Color.accentColor : Color (#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)), lineWidth: 2)
-                    .frame (width: caption == "Aa" ? 40 : nil, height: 40)
-                    //.border(Color.black, width: 1)
-                    )
-            .font(size == 0 ? .custom (fontName, size: settings.resolveFontSize (0)) : .custom(fontName, size: size))
-            .padding ()
+                RoundedRectangle(cornerRadius: 5, style: .continuous)
+                    .stroke(self.currentSize == size ? Color.accentColor : Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)), lineWidth: 2)
+                    .frame(width: caption == "Aa" ? 40 : nil, height: 40)
+            )
+            .font(size == 0 ? .custom(fontName, size: settings.resolveFontSize (0)) : .custom(fontName, size: size))
+            .padding()
     }
 }
 
@@ -211,8 +237,7 @@ struct ThemeSelector: View {
                         .border(self.themeName == t.name ? Color.accentColor : Color.clear, width: 2)
                         .onTapGesture {
                             self.themeName = t.name
-                            //self.callback (t.name)
-                    }
+                        }
                 }
             }
         }
@@ -278,20 +303,19 @@ struct LiveBackgroundSelector: View {
     @Binding var selected: String
     
     var body: some View {
-        ScrollView (.horizontal, showsIndicators: false) {
+        ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ForEach (shaders, id: \.self) { name in
                     Button(action: { self.selected = name}) {
                         MetalView(shaderFunc: name)
                             .frame(width: 120, height: 90)
-                            .border (self.selected == name ? Color.accentColor : Color.clear, width: 2)
-                            .overlay (
+                            .border(self.selected == name ? Color.accentColor : Color.clear, width: 2)
+                            .overlay(
                                 Text(shaderToHuman [name] ?? name)
                                     .shadow(color: Color.red, radius: 10, x: 5, y: 5)
                                     .foregroundColor(Color.white)
-                                
                                     .padding(8)
-                                , alignment: .topLeading)
+                            , alignment: .topLeading)
                     }
                 }
             }
@@ -325,10 +349,10 @@ struct BackgroundSelector: View {
                         Text("Live").tag(2)
                     }
                     .pickerStyle (SegmentedPickerStyle ())
-                    .onChange(of: backgroundKind) { _ in
-                        if backgroundKind == 0 {
+                    .onChange(of: backgroundKind) { _, newValue in
+                        if newValue == 0 {
                             backgroundStyle = "default"
-                        } else if backgroundKind == 1 {
+                        } else if newValue == 1 {
                             backgroundStyle = ""
                         } 
                     }
@@ -406,16 +430,18 @@ struct SettingsViewCore: View {
 }
 
 struct SettingsView: View {
-    @ObservedObject var gset = settings
+    @State var gset = settings
     
     var body: some View {
-        SettingsViewCore(themeName: $gset.themeName,
-                          fontName: $gset.fontName,
-                          fontSize: $gset.fontSize,
-                          keepOn: $gset.keepOn,
-                          locationTrack: $gset.locationTrack,
-                          beepConfig: $gset.beepConfig,
-                          backgroundStyle: $gset.backgroundStyle)
+        SettingsViewCore(
+            themeName: $gset.themeName,
+            fontName: $gset.fontName,
+            fontSize: $gset.fontSize,
+            keepOn: $gset.keepOn,
+            locationTrack: $gset.locationTrack,
+            beepConfig: $gset.beepConfig,
+            backgroundStyle: $gset.backgroundStyle
+        )
     }
 }
 

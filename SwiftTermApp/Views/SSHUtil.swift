@@ -1,5 +1,5 @@
 //
-//  SshUtil.swift - Utility functions to interoperate with SSH
+//  SSHUtil.swift - Utility functions to interoperate with SSH
 //
 //  SwiftTermApp
 //
@@ -8,9 +8,9 @@
 //
 import Foundation
 
-@_implementationOnly import CSSH
+import CSSH
 
-class SshUtil {
+class SSHUtil {
     public static func encode (str: String) -> Data {
         guard let utf8 = str.data(using: .utf8) else {
             return Data()
@@ -33,7 +33,7 @@ class SshUtil {
     /// returns the packaged binary.   This binary should be both base64-encoded, and then additional data should
     /// be added to make it suitable to be given to SSH.
     ///
-    static func generateSshPublicKeyData(k: SecKey) -> Data? {
+    static func generateSSHPublicKeyData(k: SecKey) -> Data? {
         var error: Unmanaged<CFError>? = nil
 
         guard let data = SecKeyCopyExternalRepresentation (k, &error) as Data? else {
@@ -48,8 +48,8 @@ class SshUtil {
     /// returns a public key suitable to be added to ssh `authorized_keys`.   The comment is added as part
     /// of the returned public key.
     ///
-    public static func generateSshPublicKey (k: SecKey, comment: String) -> String? {
-        guard let inner = generateSshPublicKeyData(k: k) else {
+    public static func generateSSHPublicKey (k: SecKey, comment: String) -> String? {
+        guard let inner = generateSSHPublicKeyData(k: k) else {
             return nil
         }
         return "ecdsa-sha2-nistp256 \(inner.base64EncodedString()) \(comment)"
@@ -90,7 +90,7 @@ class SshUtil {
     ///
     public static func generateSshPrivateKey (pub: SecKey, priv: SecKey, comment: String) -> String? {
         var content: Data
-        guard let pubEncoded = generateSshPublicKeyData(k: pub) else {
+        guard let pubEncoded = generateSSHPublicKeyData(k: pub) else {
             return nil
         }
         var error: Unmanaged<CFError>? = nil

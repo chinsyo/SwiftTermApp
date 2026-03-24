@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@_implementationOnly import CSSH
+import CSSH
 
 /// Surfaces operations on channels, channels need to be activated on the session to receive data
 public class Channel: Equatable {

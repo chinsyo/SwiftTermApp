@@ -10,7 +10,7 @@
 import SwiftUI
 
 struct EditKey: View {
-    @EnvironmentObject var dataController: DataController
+    @Environment(\.dataController) var dataController
     @Environment(\.dismiss) private var dismiss
 
     @State var key: CKey?

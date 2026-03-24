@@ -30,7 +30,7 @@ struct Explanation: View {
     }
 }
 struct HostKeysList: View {
-    @ObservedObject var store: DataStore = DataStore.shared
+    @State var store: DataStore = DataStore.shared
     @State var showInfo = false
     
     var body: some View {

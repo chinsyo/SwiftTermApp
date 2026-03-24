@@ -51,7 +51,7 @@ class KeyTools {
             }
             let publicKey = SecKeyCopyPublicKey  (privateKey)
             
-            guard let publicText = SshUtil.generateSshPublicKey(k: publicKey!, comment: comment) else {
+            guard let publicText = SSHUtil.generateSSHPublicKey(k: publicKey!, comment: comment) else {
                 print ("Could not produce the public key")
                 return nil
             }
@@ -60,7 +60,7 @@ class KeyTools {
             if inSecureEnclave {
                 privateText = secureEnclaveKeyTag
             } else {
-                guard let p = SshUtil.generateSshPrivateKey(pub: publicKey!, priv: privateKey, comment: comment) else {
+                guard let p = SSHUtil.generateSshPrivateKey(pub: publicKey!, priv: privateKey, comment: comment) else {
                     print ("Could not produce the private key")
                     return nil
                 }

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Combine
+import Observation
 import UIKit
 import SwiftTerm
  
@@ -16,10 +16,11 @@ import SwiftTerm
 ///
 /// Note: terminal views are typically created first, and tracked before a session is created, which only takes place later
 ///
-class Connections: ObservableObject {
+@Observable
+class Connections {
     public static var shared: Connections = Connections()
     
-    @Published public var sessions: [Session] = [
+    public var sessions: [Session] = [
     ]
 
     public var terminalsCount: Int {
@@ -37,7 +38,7 @@ class Connections: ObservableObject {
     }
     
     // Returns a newly allocated array with all active terminals
-    public func getTerminals () -> [SshTerminalView] {
+    public func getTerminals () -> [SSHTerminalView] {
         dispatchPrecondition(condition: .onQueue(DispatchQueue.main))
 
         return sessions.flatMap { $0.terminals }
@@ -57,7 +58,7 @@ class Connections: ObservableObject {
         }
     }
     
-    public static func lookupActiveTerminal (host: Host) -> SshTerminalView?
+    public static func lookupActiveTerminal (host: Host) -> SSHTerminalView?
     {
         dispatchPrecondition(condition: .onQueue(DispatchQueue.main))
         if let session = lookupActiveSession(host: host) {

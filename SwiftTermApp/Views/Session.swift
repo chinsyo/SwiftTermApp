@@ -13,7 +13,7 @@ import CryptoKit
 // Necessary for the UI pieces
 import SwiftUI
 
-@_implementationOnly import CSSH
+import CSSH
 
 protocol SessionDelegate: AnyObject {
     /// Called if we failed to login on the network queue
@@ -72,7 +72,7 @@ class Session: CustomDebugStringConvertible, Equatable {
     var terminalsLock = NSLock ()
     
     // use terminalsLock to access: tracks all the created SshTerminalViews
-    var terminals: [SshTerminalView] = []
+    var terminals: [SSHTerminalView] = []
     
 
     // Where we post interesting events about this session
@@ -237,7 +237,7 @@ class Session: CustomDebugStringConvertible, Equatable {
         
         if let keyAndType = await hostKey() {
             let res = knownHosts.check (hostName: host.hostname, port: Int32 (host.port), key: keyAndType.key)
-            let hostKeyType = SshUtil.keyTypeName (keyAndType.type)
+            let hostKeyType = SSHUtil.keyTypeName (keyAndType.type)
             
 //            var k: KnownHostStatus = .keyMismatch
 //            switch k {
@@ -300,7 +300,7 @@ class Session: CustomDebugStringConvertible, Equatable {
             case .rsa(_), .ecdsa(inEnclave: false):
                 var password: String
                 
-                if SshUtil.openSSHKeyRequiresPassword(key: sshKey.privateKey) && sshKey.passphrase == "" {
+                if SSHUtil.openSSHKeyRequiresPassword(key: sshKey.privateKey) && sshKey.passphrase == "" {
                     guard let vc = await getParentViewController (hint: delegate.getResponder()) else {
                         return logUIInvokedFromBackground(operation: "prompt user")
                     }
@@ -348,16 +348,18 @@ class Session: CustomDebugStringConvertible, Equatable {
         // First, try to use what the user configured
         if authMethods.contains("publickey") && host.sshKey != nil {
             
-            let keyRequest = CKey.fetchRequest()
-            keyRequest.predicate = NSPredicate (format: "sId == \"\(host.sshKey!)\"")
-        
+            let keyId = host.sshKey!
             let keys = try? await viewContext.perform {
+                let keyRequest = CKey.fetchRequest()
+                keyRequest.predicate = NSPredicate (format: "sId == \"\(keyId)\"")
                 return try viewContext.fetch(keyRequest).map { $0.toMemoryKey () }
             }
 
             if let sshKey = keys?.first {
-                let passTask = Task.detached { () -> String? in
-                    self.logConnection("SSH: attempting authentication with \(sshKey.name)")
+                let keyName = sshKey.name
+                let passTask = Task.detached { [weak self, loginWithKey] () -> String? in
+                    guard let self = self else { return nil }
+                    self.logConnection("SSH: attempting authentication with \(keyName)")
                     if let error = await loginWithKey (sshKey) {
                         return error
                     } else {
@@ -406,17 +408,20 @@ class Session: CustomDebugStringConvertible, Equatable {
         // Ok, none of the presets work, try all the public keys that have a passphrase
         if authMethods.contains ("publickey") {
             // Fetch the keys, but we do not need the one that we tried early on (host.sshKey, so we are going to skip that one)
-            let keyRequest = CKey.fetchRequest()
-            if let explicitKey = host.sshKey {
-                keyRequest.predicate = NSPredicate (format: "sId != \"\(explicitKey)\"")
-            }
+            let explicitKey = host.sshKey
             let keys = try? await viewContext.perform {
+                let keyRequest = CKey.fetchRequest()
+                if let explicitKey = explicitKey {
+                    keyRequest.predicate = NSPredicate (format: "sId != \"\(explicitKey)\"")
+                }
                 return try viewContext.fetch(keyRequest).map { $0.toMemoryKey () }
             }
 
             for sshKey in keys ?? [] {
-                let passTask = Task.detached { () -> String? in
-                    self.logConnection("SSH: attempting authentication with public key \(sshKey.name)")
+                let keyName = sshKey.name
+                let passTask = Task.detached { [weak self, loginWithKey] () -> String? in
+                    guard let self = self else { return nil }
+                    self.logConnection("SSH: attempting authentication with public key \(keyName)")
                     if let error = await loginWithKey (sshKey) {
                         return error
                     } else {
@@ -494,7 +499,8 @@ class Session: CustomDebugStringConvertible, Equatable {
 
             logConnection ("SSH loginFailed")
             delegate.loginFailed (session: self, details: msg)
-            DispatchQueue.main.async {
+            Task { @MainActor [weak self] in
+                guard let self = self else { return }
                 self.connectionError (error: msg)
             }
         }
@@ -714,13 +720,13 @@ class Session: CustomDebugStringConvertible, Equatable {
         channelsLock.unlock()
     }
     
-    func track (terminal: SshTerminalView) {
+    func track (terminal: SSHTerminalView) {
         terminalsLock.lock ()
         terminals.append(terminal)
         terminalsLock.unlock ()
     }
     
-    func drop (terminal: SshTerminalView) {
+    func drop (terminal: SSHTerminalView) {
         terminalsLock.lock ()
         if let index = terminals.firstIndex(of: terminal) {
             terminals.remove (at: index)
@@ -930,9 +936,7 @@ class SocketSession: Session {
             // channels from channels, rather than the old race condition where the value
             // of channels would be overwritten with the new result of "active", when a
             // background thread might have added a new Channel, killing it in the process
-            channelsLock.lock()
-            let copy = channels
-            channelsLock.unlock()
+            let copy = channelsLock.withLock { channels }
             var removeList: [Channel] = []
             
             for channel in copy {
@@ -940,19 +944,19 @@ class SocketSession: Session {
                     removeList.append(channel)
                 }
             }
-            channelsLock.lock ()
             if removeList.count > 0 {
-                let currentCopy = channels
-                channels = []
-                for channel in currentCopy {
-                    if removeList.contains (channel) {
-                        // Do not add
-                    } else {
-                        channels.append(channel)
+                channelsLock.withLock {
+                    let currentCopy = channels
+                    channels = []
+                    for channel in currentCopy {
+                        if removeList.contains (channel) {
+                            // Do not add
+                        } else {
+                            channels.append(channel)
+                        }
                     }
                 }
             }
-            channelsLock.unlock()
         }
     }
        

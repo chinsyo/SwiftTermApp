@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@_implementationOnly import CSSH
+import CSSH
 
 public class SftpHandle {
     weak var session: Session!

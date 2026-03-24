@@ -120,7 +120,7 @@ struct HostIconSelector: View {
 }
 
 struct HostEditView: View {
-    @EnvironmentObject var dataController: DataController
+    @Environment(\.dataController) var dataController
     @State var alertClash: Bool = false
     @State var host: CHost?
     @State var keySelectorIsActive: Bool = false

@@ -8,6 +8,7 @@
 
 import Foundation
 import Combine
+import Observation
 
 /// Represents a host we have connected to
 struct KnownHost: Identifiable {
@@ -18,7 +19,8 @@ struct KnownHost: Identifiable {
     var id: UUID
 }
 
-class DataStore: ObservableObject {
+@Observable
+class DataStore {
     static let testKey1 = MemoryKey (id: UUID(), type: .rsa (1024), name: "Fake Legacy Key", privateKey: "", publicKey: "", passphrase: "")
     static let testKey2 = MemoryKey (id: UUID(), type: .rsa (4096), name: "Fake 2020 iPhone Key", privateKey: "", publicKey: "", passphrase: "")
     
@@ -26,7 +28,7 @@ class DataStore: ObservableObject {
     
     var defaults: UserDefaults?
     
-    @Published var knownHosts: [KnownHost] = []
+    var knownHosts: [KnownHost] = []
     
     /// Event raised when the properties that can be changed on a live connection have changed
     var runtimeVisibleChanges = PassthroughSubject<Host,Never> ()

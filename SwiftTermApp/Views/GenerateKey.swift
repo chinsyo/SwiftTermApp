@@ -32,7 +32,7 @@ enum KeyType: Codable, Equatable, CustomStringConvertible {
 // ones with an optional passphrase
 //
 struct GenerateKey: View {
-    @EnvironmentObject var dataController: DataController
+    @Environment(\.dataController) var dataController
     @Environment(\.managedObjectContext) var moc
     @State var keyStyle:Int = 0
     @State var keyBits:Int = 1

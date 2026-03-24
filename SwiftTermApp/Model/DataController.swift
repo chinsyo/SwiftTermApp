@@ -10,8 +10,22 @@ import Foundation
 import CoreData
 import SwiftUI
 import CloudKit
+import Observation
 
-class DataController: ObservableObject {
+// Environment Key for DataController
+struct DataControllerKey: EnvironmentKey {
+    static let defaultValue: DataController = globalDataController
+}
+
+extension EnvironmentValues {
+    var dataController: DataController {
+        get { self[DataControllerKey.self] }
+        set { self[DataControllerKey.self] = newValue }
+    }
+}
+
+@Observable
+class DataController {
     let container: NSPersistentCloudKitContainer
     
     init(inMemory: Bool = false) {

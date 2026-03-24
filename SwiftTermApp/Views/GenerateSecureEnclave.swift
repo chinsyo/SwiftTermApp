@@ -11,7 +11,7 @@ import SwiftUI
 let secureEnclaveKeyTag = "SwiftTermSecureEnclaveKeyTag"
 
 struct GenerateSecureEnclave: View {
-    @EnvironmentObject var dataController: DataController
+    @Environment(\.dataController) var dataController
     @Environment(\.managedObjectContext) var moc
     @State var title = "SwiftTerm Enclave Key on \(UIDevice.current.name)"
     @Binding var showGenerator: Bool

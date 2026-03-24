@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct CommandPicker: View {
-    @EnvironmentObject var dataController: DataController
+    @Environment(\.dataController) var dataController
     private var snippets: FetchRequest<CUserSnippet>
 
     @Environment(\.dismiss) private var dismiss
